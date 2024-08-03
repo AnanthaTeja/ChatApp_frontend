@@ -25,6 +25,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 
+// Message interface to define the structure of each message
 interface Message {
   id: number;
   text: string;
@@ -32,11 +33,13 @@ interface Message {
 }
 
 const ChatInterface: React.FC = () => {
+  // State variables for messages, typing status, and sheet visibility
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const messageIdCounter = useRef(0);
 
+  // Function to add a new message
   const addMessage = useCallback((message: string, isUser: boolean = true) => {
     const newId = messageIdCounter.current++;
     setMessages((prevMessages) => [
@@ -46,6 +49,7 @@ const ChatInterface: React.FC = () => {
     return newId;
   }, []);
 
+  // Function to update an existing message
   const updateMessage = useCallback((id: number, newText: string) => {
     setMessages((prevMessages) =>
       prevMessages.map((msg) =>
@@ -54,12 +58,13 @@ const ChatInterface: React.FC = () => {
     );
   }, []);
 
+  // Function to handle sending a message
   const handleSendMessage = useCallback(
     (message: string) => {
       addMessage(message, true);
       setIsTyping(true);
 
-      // Simulate API call and response streaming
+      // Simulate API call and response stream
       const words =
         "This is a simulated response from the system to mimic the real-time chat like chatgpt.".split(
           " "
@@ -67,6 +72,7 @@ const ChatInterface: React.FC = () => {
       let response = "";
       const systemMessageId = addMessage("", false);
 
+      // Function to simulate typing effect
       const simulateTyping = () => {
         if (words.length > 0) {
           response += words.shift() + " ";
@@ -99,7 +105,7 @@ const ChatInterface: React.FC = () => {
             <SheetDescription>Previous Chats</SheetDescription>
           </SheetHeader>
           <div className="flex-grow overflow-y-auto">
-            {/* Chat history */}
+            {/* Sample chat history */}
             <div className="space-y-4 p-4">
               <div className="p-2 bg-gray-100 rounded-md relative">
                 I just started a new book. It's really good!
